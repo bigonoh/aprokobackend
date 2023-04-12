@@ -39,7 +39,7 @@ app.use(compression());
 
 // enable cors
 app.use(cors({
-  origin: ['https://api.aprokopay.com', 'http:/localhost:3500']
+  origin: ['https://aprokopay.com', 'http:/localhost:3000']
 }));
 app.options('*', cors());
 
