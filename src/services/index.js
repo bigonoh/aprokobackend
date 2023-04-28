@@ -6,3 +6,4 @@ module.exports.infoService = require('./info.service');
 module.exports.purchaseService = require('./purchase.service');
 module.exports.saleService = require('./sale.service');
 module.exports.withdrawService = require('./withdraw.service');
+module.exports.proposalService = require('./proposal.service');

@@ -23,7 +23,7 @@ const createPurchase = catchAsync(async (req, res) => {
   let payment_ref = req.body.payment_ref
 
   const purchases = await purchaseService.createPurchase(payload);
-
+console.log(payload, 'seller purc')
   if (purchases) {
         // create debit transaction
         const transaction = await Transaction.create([{
@@ -84,6 +84,13 @@ const getPurchases = catchAsync(async (req, res) => {
   return success(res, 'Purchases retrieved succesfully',result);
 });
 
+const getBoughtInfos = catchAsync(async (req, res) => {
+  const filter = pick({...req.query, user: req.user}, ['title', 'role']);
+  const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
+  const result = await purchaseService.queryPurchases(filter, options);
+  return success(res, 'Info retrieved succesfully',result);
+});
+
 const getPurchase = catchAsync(async (req, res) => {
   const purchases = await purchaseService.getPurchaseById(req.params.purchasesId);
   if (!purchases) {
@@ -111,4 +118,5 @@ module.exports = {
   updatePurchase,
   deletePurchase,
   getLocations,
+  getBoughtInfos,
 };

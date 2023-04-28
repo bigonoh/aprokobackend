@@ -1,43 +1,38 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const purchaseValidation = require('../../validations/purchase.validation');
-const purchasesController = require('../../controllers/purchases.controller');
+const proposalValidation = require('../../validations/proposal.validation');
+const proposalController = require('../../controllers/proposal.controller');
 
 const router = express.Router();
 
 router
   .route('/')
-  .post(auth(), validate(purchaseValidation.createPurchase), purchasesController.createPurchase)
-  .get( validate(purchaseValidation.getPurchases), purchasesController.getPurchases);
-
-  router
-  .route('/user')
-  .get(auth(), validate(purchaseValidation.getPurchases), purchasesController.getBoughtInfos);
-
+  .post(auth(), validate(proposalValidation.createProposal), proposalController.createProposal)
+  .get( validate(proposalValidation.getProposals), proposalController.getProposals);
 
 router
-  .route('/:purchaseId')
-  .get(auth(), validate(purchaseValidation.getPurchase), purchasesController.getPurchase)
-  .patch(auth('managePurchases'), validate(purchaseValidation.updatePurchase), purchasesController.updatePurchase)
-  .delete(auth('managePurchases'), validate(purchaseValidation.deletePurchase), purchasesController.deletePurchase);
+  .route('/:proposalId')
+  .get(auth(), validate(proposalValidation.getProposal), proposalController.getProposal)
+  .patch(auth('manageProposals'), validate(proposalValidation.updateProposal), proposalController.updateProposal)
+  .delete(auth('manageProposals'), validate(proposalValidation.deleteProposal), proposalController.deleteProposal);
 
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: Purchases
- *   description: Purchase management and retrieval
+ *   name: Proposals
+ *   description: Proposal management and retrieval
  */
 
 /**
  * @swagger
- * /purchases:
+ * /proposals:
  *   post:
- *     summary: Create a purchase
- *     description: Only admins can create other purchases.
- *     tags: [Purchases]
+ *     summary: Create a proposal
+ *     description: Only admins can create other proposals.
+ *     tags: [Proposals]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -65,19 +60,19 @@ module.exports = router;
  *                 description: At least one number and one letter
  *               role:
  *                  type: string
- *                  enum: [purchase, admin]
+ *                  enum: [proposal, admin]
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
- *               role: purchase
+ *               role: proposal
  *     responses:
  *       "201":
  *         description: Created
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Purchase'
+ *                $ref: '#/components/schemas/Proposal'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -86,9 +81,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all purchases
- *     description: Only admins can retrieve all purchases.
- *     tags: [Purchases]
+ *     summary: Get all proposals
+ *     description: Only admins can retrieve all proposals.
+ *     tags: [Proposals]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -96,12 +91,12 @@ module.exports = router;
  *         name: name
  *         schema:
  *           type: string
- *         description: Purchase name
+ *         description: Proposal name
  *       - in: query
  *         name: role
  *         schema:
  *           type: string
- *         description: Purchase role
+ *         description: Proposal role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -113,7 +108,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of purchases
+ *         description: Maximum number of proposals
  *       - in: query
  *         name: page
  *         schema:
@@ -132,7 +127,7 @@ module.exports = router;
  *                 results:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Purchase'
+ *                     $ref: '#/components/schemas/Proposal'
  *                 page:
  *                   type: integer
  *                   example: 1
@@ -153,11 +148,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /purchases/{id}:
+ * /proposals/{id}:
  *   get:
- *     summary: Get a purchase
- *     description: Logged in purchases can fetch only their own purchase purchasermation. Only admins can fetch other purchases.
- *     tags: [Purchases]
+ *     summary: Get a proposal
+ *     description: Logged in proposals can fetch only their own proposal proposalrmation. Only admins can fetch other proposals.
+ *     tags: [Proposals]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -166,14 +161,14 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Purchase id
+ *         description: Proposal id
  *     responses:
  *       "200":
  *         description: OK
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Purchase'
+ *                $ref: '#/components/schemas/Proposal'
  *       "401":
  *         $ref: '#/components/responses/Unauthorized'
  *       "403":
@@ -182,9 +177,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a purchase
- *     description: Logged in purchases can only update their own purchasermation. Only admins can update other purchases.
- *     tags: [Purchases]
+ *     summary: Update a proposal
+ *     description: Logged in proposals can only update their own proposalrmation. Only admins can update other proposals.
+ *     tags: [Proposals]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -193,7 +188,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Purchase id
+ *         description: Proposal id
  *     requestBody:
  *       required: true
  *       content:
@@ -222,7 +217,7 @@ module.exports = router;
  *         content:
  *           application/json:
  *             schema:
- *                $ref: '#/components/schemas/Purchase'
+ *                $ref: '#/components/schemas/Proposal'
  *       "400":
  *         $ref: '#/components/responses/DuplicateEmail'
  *       "401":
@@ -233,9 +228,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a purchase
- *     description: Logged in purchases can delete only themselves. Only admins can delete other purchases.
- *     tags: [Purchases]
+ *     summary: Delete a proposal
+ *     description: Logged in proposals can delete only themselves. Only admins can delete other proposals.
+ *     tags: [Proposals]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -244,7 +239,7 @@ module.exports = router;
  *         required: true
  *         schema:
  *           type: string
- *         description: Purchase id
+ *         description: Proposal id
  *     responses:
  *       "200":
  *         description: No content

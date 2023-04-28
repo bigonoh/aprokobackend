@@ -2,6 +2,7 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const infoRoute = require('./info.route');
+const proposalRoute = require('./proposal.route');
 const purchaseRoute = require('./purchase.route');
 const saleRoute = require('./sale.route');
 const otherRoute = require('./other.route');
@@ -24,6 +25,10 @@ const defaultRoutes = [
   {
     path: '/infos',
     route: infoRoute,
+  },
+  {
+    path: '/proposal',
+    route: proposalRoute,
   },
   {
     path: '/purchase',

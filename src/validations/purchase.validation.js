@@ -21,6 +21,7 @@ const getPurchases = {
     id: Joi.string(),
     // role: Joi.string(),
     sortBy: Joi.string(),
+    populate: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),
   }),

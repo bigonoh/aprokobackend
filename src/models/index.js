@@ -6,3 +6,4 @@ module.exports.Transaction = require('./transactions.model');
 module.exports.Purchase = require('./purchase.model');
 module.exports.Sale = require('./sale.model');
 module.exports.Withdraw = require('./withdraw.model');
+module.exports.Proposal = require('./proposal.model');
