@@ -85,7 +85,7 @@ function fail(res, message, code = 200, data = null) {
 
     return res.status(code).send({
         status: 'fail',
-        ...message,
+        message,
         data
     })
 }

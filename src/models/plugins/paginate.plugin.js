@@ -26,12 +26,14 @@ const paginate = (schema) => {
       const sortingCriteria = [];
       options.sortBy.split(',').forEach((sortOption) => {
         const [key, order] = sortOption.split(':');
+
         sortingCriteria.push((order === 'desc' ? '-' : '') + key);
       });
       sort = sortingCriteria.join(' ');
     } else {
-      sort = 'createdAt';
+      sort = 'created_at';
     }
+
 
     const limit = options.limit && parseInt(options.limit, 10) > 0 ? parseInt(options.limit, 10) : 10;
     const page = options.page && parseInt(options.page, 10) > 0 ? parseInt(options.page, 10) : 1;
@@ -60,7 +62,6 @@ const paginate = (schema) => {
         docsPromise = docsPromise.populate(
           populateOption
             .split('.')
-            .reverse()
             .reduce((a, b) => ({ path: b, populate: a }))
         );
       });
@@ -69,7 +70,7 @@ const paginate = (schema) => {
     docsPromise = docsPromise.exec();
 
     return Promise.all([countPromise, docsPromise, amountPromise ]).then((values) => {
-console.log(amountPromise, 'amounnnt')
+
 
       const [totalResults, results] = values;
       const totalPages = Math.ceil(totalResults / limit);

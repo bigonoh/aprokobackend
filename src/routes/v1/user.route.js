@@ -21,6 +21,10 @@ router
   .route('/get_user')
   .get(auth(), validate(userValidation.getUser), userController.getLoggedUser)
 
+  router
+  .route('/update_user')
+  .post(auth(), userController.updateSingleUser)
+
 module.exports = router;
 
 /**

@@ -12,6 +12,14 @@ const userSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
+    username: {
+      type: String,
+      trim: true,
+    },
+    bio: {
+      type: String,
+      trim: true,
+    },
     email: {
       type: String,
       required: true,
@@ -45,6 +53,7 @@ const userSchema = mongoose.Schema(
       type: Object,
       default: {
         bank: '',
+        bank_code: '',
         account_name: '',
         account_number: '',
       }

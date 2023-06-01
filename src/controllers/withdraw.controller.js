@@ -4,6 +4,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const Withdraw = require('../models/withdraw.model')
+const Wallet = require('../models/wallet.model')
 const { success, bad, fail } = require('../helpers/requests');
 const { withdrawService } = require('../services');
 const { debitWallet } = require('../utils/transaction');
@@ -13,6 +14,13 @@ const createWithdrawal = catchAsync(async (req, res) => {
     user: req.user._id,
     ...req.body
   }
+
+  const wallet = await Wallet.findOne({user: req.user})
+
+  if (req.body.amount > wallet.balance) {
+    return fail(res, `You don't have up to the specified amount in your wallet`)
+  }
+
   const result = await Withdraw.create(payload);
   return success(res, 'Withdraw request placed succesfully, we will contact you shortly',result);
 });
