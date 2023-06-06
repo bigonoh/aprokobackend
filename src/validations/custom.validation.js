@@ -16,7 +16,7 @@ const password = (value, helpers) => {
 };
 
 const status = (value, helpers) => {
-  console.log('status', value)
+
   if ((value !== 'public') || (value !== 'draft') || (value !== 'private')){
     return helpers.message('status must be public, private or draft');
   }

@@ -29,18 +29,25 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const getLoggedUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.user.id);
-  let wallet = await Wallet.findOne({user})
 
-  //create wallet if user has no wallet
-  if(!wallet) wallet = await Wallet.create({user})
+  try {
+    const user = await userService.getUserById(req.user.id);
+    let wallet = await Wallet.findOne({user})
 
-  // console.log(wallet);
+    //create wallet if user has no wallet
+    if(!wallet) wallet = await Wallet.create({user})
 
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    // console.log(wallet);
+
+    if (!user) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
+    return success(res, "User returned succesfully", {user, wallet});
+
+  } catch (error) {
+    return error.message
   }
-   return success(res, "User returned succesfully", {user, wallet});
+
 });
 
 

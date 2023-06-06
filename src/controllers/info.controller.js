@@ -9,7 +9,11 @@ const { success } = require('../helpers/requests');
 const createInfo = catchAsync(async (req, res) => {
   const payload = {
     user: req.user._id,
-    ...req.body
+    ...req.body,
+    description: req.body.description + `
+
+    Author No: ${req.user.phone}
+    `
   }
   const infos = await infoService.createInfo(payload);
   return success(res, 'Informations created succesfully',infos);
@@ -17,7 +21,6 @@ const createInfo = catchAsync(async (req, res) => {
 
 const getInfos = catchAsync(async (req, res) => {
   // console.log(req.infos, 'req.infos');
-
   const filter = pick(req.query, ['title', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await infoService.queryInfos(filter, options);
@@ -25,6 +28,7 @@ const getInfos = catchAsync(async (req, res) => {
 });
 
 const getInfo = catchAsync(async (req, res) => {
+
   const infos = await infoService.getInfoById(req.params.infosId);
   if (!infos) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Info not found');

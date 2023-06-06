@@ -210,7 +210,7 @@ const approveWithdrawReq = catchAsync(async (req, res) => {
     const id = req.params.id
     const {status, approved} = req.body
 
-    console.log(req.body)
+
     Withdraw.findOne({_id: id}).then(d => {
       // console.log(d)
       if(d.status === 'paid') return bad(res, 'This withrawal request has already been paid')
