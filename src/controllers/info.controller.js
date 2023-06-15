@@ -17,7 +17,7 @@ const createInfo = catchAsync(async (req, res) => {
 
 const getInfos = catchAsync(async (req, res) => {
   // console.log(req.infos, 'req.infos');
-  const filter = pick(req.query, ['title', 'role']);
+  const filter = pick(req.query, ['title', 'role', 'user']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await infoService.queryInfos(filter, options);
 
