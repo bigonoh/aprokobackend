@@ -3,7 +3,7 @@ const httpStatus = require('http-status');
 const config = require('../config/config');
 const logger = require('../config/logger');
 const ApiError = require('../utils/ApiError');
-const {fail} = require('../helpers/requests');
+const { fail } = require('../helpers/requests');
 const errorConverter = (err, req, res, next) => {
   let error = err;
   if (!(error instanceof ApiError)) {
@@ -35,8 +35,7 @@ const errorHandler = (err, req, res, next) => {
     logger.error(err);
   }
 
-  return fail(res, response, response.code);
-
+  return res.status(response.code || 403).json(response);
 };
 
 module.exports = {

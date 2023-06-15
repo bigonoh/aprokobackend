@@ -7,7 +7,6 @@ const { ExtractJwt } = require('passport-jwt');
 const { readableHighWaterMark } = require('../config/logger');
 const JwtStrategy = require('passport-jwt').Strategy;
 
-
 const verifyCallback = (req, resolve, reject, requiredRights) => async (err, user, info) => {
   if (err || info || !user) {
     return reject(new ApiError(httpStatus.UNAUTHORIZED, 'Please authenticate'));
@@ -24,18 +23,18 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
   resolve();
 };
 
-
-
-const auth = (...requiredRights) => async (req, res, next) => {
-  return new Promise((resolve, reject) => {
-    passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);
-    // passport.authenticate('jwt', { session: false });
-  })
-    .then((d) => {
-      console.log(d);
-      next()
+const auth =
+  (...requiredRights) =>
+  async (req, res, next) => {
+    return new Promise((resolve, reject) => {
+      passport.authenticate('jwt', { session: false }, verifyCallback(req, resolve, reject, requiredRights))(req, res, next);
+      // passport.authenticate('jwt', { session: false });
     })
-    .catch((err) => next(err));
-};
+      .then((d) => {
+        console.log(d);
+        next();
+      })
+      .catch((err) => next(err));
+  };
 
 module.exports = auth;

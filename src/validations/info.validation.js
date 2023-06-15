@@ -6,10 +6,12 @@ const createInfo = {
     title: Joi.string().required(),
     description: Joi.string().required(),
     probation: Joi.boolean(),
-    location : Joi.object().keys({
-      city: Joi.string().required(),
-      state: Joi.string().required(),
-    }).required(),
+    location: Joi.object()
+      .keys({
+        city: Joi.string().required(),
+        state: Joi.string().required(),
+      })
+      .required(),
     status: Joi.string().required(),
     price: Joi.number().required(),
     selling: Joi.boolean(),
@@ -20,6 +22,7 @@ const getInfos = {
   query: Joi.object().keys({
     id: Joi.string(),
     // role: Joi.string(),
+    user: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer(),

@@ -21,7 +21,7 @@ const infoSchema = mongoose.Schema(
     probation: {
       type: Boolean,
       default: false,
-      enum: [true, false]
+      enum: [true, false],
     },
 
     status: {
@@ -35,10 +35,10 @@ const infoSchema = mongoose.Schema(
         default: '',
         required: true,
       },
-      city: {type: String, required: true},
-      street: {type: String},
+      city: { type: String, required: true },
+      street: { type: String },
       default: '',
-      type: Object
+      type: Object,
     },
     user: {
       type: mongoose.SchemaTypes.ObjectId,
@@ -61,14 +61,18 @@ const infoSchema = mongoose.Schema(
 
     report_reason: {
       type: String,
-      required: this.reported
+      required: this.reported,
     },
 
     selling: {
       type: Boolean,
       default: false,
       enum: [true, false],
-    }
+    },
+    created_at: {
+      type: Date,
+      default: Date.now(),
+    },
   },
   {
     timestamps: true,

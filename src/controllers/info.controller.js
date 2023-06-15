@@ -10,13 +10,9 @@ const createInfo = catchAsync(async (req, res) => {
   const payload = {
     user: req.user._id,
     ...req.body,
-    description: req.body.description + `
-
-    Author No: ${req.user.phone}
-    `
-  }
+  };
   const infos = await infoService.createInfo(payload);
-  return success(res, 'Informations created succesfully',infos);
+  return success(res, 'Informations created succesfully', infos);
 });
 
 const getInfos = catchAsync(async (req, res) => {
@@ -24,16 +20,17 @@ const getInfos = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['title', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await infoService.queryInfos(filter, options);
-  return success(res, 'Informations retrieved succesfully',result);
+
+  return success(res, 'Informations retrieved succesfully', result);
 });
 
 const getInfo = catchAsync(async (req, res) => {
-
   const infos = await infoService.getInfoById(req.params.infosId);
+  console.log(infos);
   if (!infos) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Info not found');
   }
-  return success(res, 'Information retrieved succesfully',infos);
+  return success(res, 'Information retrieved succesfully', infos);
 });
 
 const updateInfo = catchAsync(async (req, res) => {
@@ -46,7 +43,9 @@ const deleteInfo = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getLocations = catchAsync(async (req, res) => { return res.send(states) })
+const getLocations = catchAsync(async (req, res) => {
+  return res.send(states);
+});
 
 module.exports = {
   createInfo,

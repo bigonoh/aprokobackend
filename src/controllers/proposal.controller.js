@@ -9,10 +9,10 @@ const { success } = require('../helpers/requests');
 const createProposal = catchAsync(async (req, res) => {
   const payload = {
     seller: req.user._id,
-    ...req.body
-  }
+    ...req.body,
+  };
   const proposals = await proposalService.createProposal(payload);
-  return success(res, 'Proposal sent succesfully',proposals);
+  return success(res, 'Proposal sent succesfully', proposals);
 });
 
 const getProposals = catchAsync(async (req, res) => {
@@ -21,7 +21,7 @@ const getProposals = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['title', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await proposalService.queryProposals(filter, options);
-  return success(res, 'Proposals retrieved succesfully',result);
+  return success(res, 'Proposals retrieved succesfully', result);
 });
 
 const getProposal = catchAsync(async (req, res) => {
@@ -29,7 +29,7 @@ const getProposal = catchAsync(async (req, res) => {
   if (!proposals) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Proposal not found');
   }
-  return success(res, 'Proposal retrieved succesfully',proposals);
+  return success(res, 'Proposal retrieved succesfully', proposals);
 });
 
 const updateProposal = catchAsync(async (req, res) => {
@@ -42,7 +42,9 @@ const deleteProposal = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
-const getLocations = catchAsync(async (req, res) => { return res.send(states) })
+const getLocations = catchAsync(async (req, res) => {
+  return res.send(states);
+});
 
 module.exports = {
   createProposal,
