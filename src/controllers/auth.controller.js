@@ -1,19 +1,28 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
-const { success } = require('../helpers/requests');
+const { success, bad } = require('../helpers/requests');
 
 const register = catchAsync(async (req, res) => {
-  const user = await userService.createUser(req.body);
-  const tokens = await tokenService.generateAuthTokens(user);
-  success(res, 'Account created succesfully',{ user, tokens });
+  if (!req.body.email) {
+    return bad(res, 'email is required');
+  }
+
+  try {
+    const user = await userService.createUser(req.body);
+    const tokens = await tokenService.generateAuthTokens(user);
+    success(res, 'Account created succesfully', { user, tokens });
+  } catch (error) {
+    bad(res, error.message);
+    console.log(error);
+  }
 });
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
   const tokens = await tokenService.generateAuthTokens(user);
-  success(res, `Welcome back ${user.name}`,{ user, tokens });
+  success(res, `Welcome back ${user.name}`, { user, tokens });
 });
 
 const logout = catchAsync(async (req, res) => {
@@ -23,7 +32,7 @@ const logout = catchAsync(async (req, res) => {
 
 const refreshTokens = catchAsync(async (req, res) => {
   const tokens = await authService.refreshAuth(req.body.refreshToken);
-  success(res, 'token refreshed',{ tokens });
+  success(res, 'token refreshed', { tokens });
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
@@ -40,7 +49,7 @@ const resetPassword = catchAsync(async (req, res) => {
 const sendVerificationEmail = catchAsync(async (req, res) => {
   const verifyEmailToken = await tokenService.generateVerifyEmailToken(req.user);
   await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
-  success(res,'Request succesfull');
+  success(res, 'Request succesfull');
 });
 
 const verifyEmail = catchAsync(async (req, res) => {

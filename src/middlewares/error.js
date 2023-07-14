@@ -35,7 +35,8 @@ const errorHandler = (err, req, res, next) => {
     logger.error(err);
   }
 
-  return res.status(response.code || 403).json(response);
+  return fail(res, response.message, response.code || 403, response.stack);
+  // return res.status(response.code || 403).json(response);
 };
 
 module.exports = {

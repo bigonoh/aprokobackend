@@ -8,6 +8,12 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
+  if (!userBody.email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Email is required');
+  }
+  if (!userBody.password) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Password is required');
+  }
   if (await User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
   }
