@@ -3,7 +3,13 @@ const { toJSON, paginate } = require('./plugins');
 
 const proposalSchema = mongoose.Schema(
   {
-    info_id: {
+    ask_info_id: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'Info',
+      required: true,
+    },
+
+    answered_info_id: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Info',
       required: true,
@@ -14,13 +20,13 @@ const proposalSchema = mongoose.Schema(
       required: true,
     },
 
-    buyer: {
+    asker: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
       required: true,
     },
 
-    seller: {
+    answerer: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'User',
       required: true,
@@ -28,7 +34,13 @@ const proposalSchema = mongoose.Schema(
 
     accepted: {
       type: Boolean,
-      default: false,
+      default: this.status === 'accepted' ? true : false,
+    },
+
+    status: {
+      type: String,
+      default: 'pending',
+      enum: ['pending', 'rejected', 'accepted']
     }
 
   },

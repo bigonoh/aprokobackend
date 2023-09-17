@@ -96,10 +96,10 @@ const getPurchases = catchAsync(async (req, res) => {
 
 // these are the infos the user has bought
 const getBoughtInfos = catchAsync(async (req, res) => {
-  const filter = pick({ ...req.query, user: req.user._id }, ['title', 'role', 'user']);
+  const filter = pick({ user: req.user._id }, ['title', 'role', 'user']);
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await purchaseService.queryPurchases(filter, options);
-  console.log(req.query);
+  console.log(req.filter);
 
   return success(res, "Info's retrieved succesfully", result);
 });

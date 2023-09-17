@@ -15,7 +15,11 @@ router
   .route('/:proposalId')
   .get(auth(), validate(proposalValidation.getProposal), proposalController.getProposal)
   .patch(auth('manageProposals'), validate(proposalValidation.updateProposal), proposalController.updateProposal)
-  .delete(auth('manageProposals'), validate(proposalValidation.deleteProposal), proposalController.deleteProposal);
+  .delete(auth(), validate(proposalValidation.deleteProposal), proposalController.deleteProposal);
+
+  router
+  .route('/accept')
+  .put(auth(), proposalController.acceptRejectProposal)
 
 module.exports = router;
 

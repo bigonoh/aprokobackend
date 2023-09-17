@@ -41,7 +41,6 @@ const paginate = (schema) => {
     const countPromise = this.countDocuments(filter).exec();
     let docsPromise = this.find(filter).sort(sort).skip(skip).limit(limit);
     let amountPromise = null;
-    console.log(filter);
 
     if (schema.obj.amount) {
       try {
@@ -65,6 +64,7 @@ const paginate = (schema) => {
 
     return Promise.all([countPromise, docsPromise, amountPromise]).then((values) => {
       const [totalResults, results] = values;
+
       const totalPages = Math.ceil(totalResults / limit);
       const result = {
         results,
