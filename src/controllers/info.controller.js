@@ -16,8 +16,13 @@ const createInfo = catchAsync(async (req, res) => {
 });
 
 const getInfos = catchAsync(async (req, res) => {
-  // console.log(req.infos, 'req.infos');
-  const filter = pick(req.query, ['title', 'role', 'user']);
+  let filter = [];
+
+  if (req.query.location && req.query.location.length > 2) {
+    filter = pick(req.query, ['title', 'role', 'user', 'location']);
+  } else {
+    filter = pick(req.query, ['title', 'role', 'user']);
+  }
   const options = pick(req.query, ['sortBy', 'limit', 'page', 'populate']);
   const result = await infoService.queryInfos(filter, options);
 

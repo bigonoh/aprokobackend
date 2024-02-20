@@ -21,6 +21,8 @@ const createInfo = {
 const getInfos = {
   query: Joi.object().keys({
     id: Joi.string(),
+    title: Joi.string().allow(''), // Make title optional
+    location: Joi.string().allow(''), // Make title optional
     // role: Joi.string(),
     user: Joi.string(),
     sortBy: Joi.string(),

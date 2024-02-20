@@ -21,6 +21,20 @@ const paginate = (schema) => {
    * @returns {Promise<QueryResult>}
    */
   schema.statics.paginate = async function (filter, options) {
+    // Add regex matching for title field
+    if (filter && filter.title) {
+      filter.title = { $regex: new RegExp(filter.title, 'i') }; // 'i' for case-insensitive
+    }
+
+    // Add filtering by location
+    if (filter && filter.location) {
+      const locationFilter = JSON.parse(filter.location);
+
+      filter['location.state'] = { $regex: new RegExp(locationFilter.value, 'i') };
+      // filter['location.city'] = { $regex: new RegExp(locationFilter.value, 'i') };
+      delete filter.location; // Remove the original location field
+    }
+
     let sort = '';
     if (options.sortBy) {
       const sortingCriteria = [];
