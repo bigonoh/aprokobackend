@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const { number } = require('joi');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
-const { number } = require('joi');
 
 const userSchema = mongoose.Schema(
   {
@@ -35,7 +35,7 @@ const userSchema = mongoose.Schema(
     phone: {
       type: String,
       required: true,
-      default: '-'
+      default: '-',
     },
     password: {
       type: String,
@@ -56,7 +56,7 @@ const userSchema = mongoose.Schema(
         bank_code: '',
         account_name: '',
         account_number: '',
-      }
+      },
     },
     role: {
       type: String,
@@ -76,9 +76,9 @@ const userSchema = mongoose.Schema(
     created_at: {
       type: Date,
       default: Date.now,
-    }
+    },
   },
-  {timestamps: true}
+  { timestamps: true }
 );
 
 // add plugin that converts mongoose to json

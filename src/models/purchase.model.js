@@ -39,14 +39,13 @@ const purchaseSchema = mongoose.Schema(
 
     report_reason: {
       type: String,
-      required: this.reported
+      required: this.reported,
     },
 
     created_at: {
       type: Date,
-      default: Date.now()
-    }
-
+      default: Date.now(),
+    },
   },
 
   {

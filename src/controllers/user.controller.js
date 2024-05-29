@@ -8,7 +8,7 @@ const { Wallet } = require('../models');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  return success(res, "Account Created Succesfully",user);
+  return success(res, 'Account Created Succesfully', user);
 });
 
 const getUsers = catchAsync(async (req, res) => {
@@ -17,7 +17,7 @@ const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await userService.queryUsers(filter, options);
-  return success(res, "Users returned successfully",result);
+  return success(res, 'Users returned successfully', result);
 });
 
 const getUser = catchAsync(async (req, res) => {
@@ -25,40 +25,36 @@ const getUser = catchAsync(async (req, res) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  return success(res, "User returned succesfully", user);
+  return success(res, 'User returned succesfully', user);
 });
 
 const getLoggedUser = catchAsync(async (req, res) => {
-
   try {
     const user = await userService.getUserById(req.user.id);
-    let wallet = await Wallet.findOne({user})
+    let wallet = await Wallet.findOne({ user });
 
-    //create wallet if user has no wallet
-    if(!wallet) wallet = await Wallet.create({user})
+    // create wallet if user has no wallet
+    if (!wallet) wallet = await Wallet.create({ user });
 
     // console.log(wallet);
 
     if (!user) {
       throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
     }
-    return success(res, "User returned succesfully", {user, wallet});
-
+    return success(res, 'User returned succesfully', { user, wallet });
   } catch (error) {
-    return error.message
+    return error.message;
   }
-
 });
-
 
 const updateUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.params.userId, req.body);
-  return success(res, "Account updated successfully",user);
+  return success(res, 'Account updated successfully', user);
 });
 
 const updateSingleUser = catchAsync(async (req, res) => {
   const user = await userService.updateUserById(req.user._id, req.body);
-  return success(res, "Account updated successfully",user);
+  return success(res, 'Account updated successfully', user);
 });
 
 const deleteUser = catchAsync(async (req, res) => {
@@ -73,5 +69,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getLoggedUser,
-  updateSingleUser
+  updateSingleUser,
 };

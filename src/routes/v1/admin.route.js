@@ -18,24 +18,17 @@ router
   .patch(auth(), validate(userValidation.updateUser), adminController.updateUser)
   .delete(auth(), validate(userValidation.deleteUser), adminController.deleteUser);
 
-router
-.route('/info')
-.get(auth(), validate(infoValidation.getInfos), adminController.getInfos);
+router.route('/info').get(auth(), validate(infoValidation.getInfos), adminController.getInfos);
 
 router
-.route('/info/:id')
-.get(auth(), validate(infoValidation.getInfo), adminController.getInfo)
-.patch(auth('manageInfos'), validate(infoValidation.updateInfo), adminController.updateInfo)
-.delete(auth('manageInfos'), validate(infoValidation.deleteInfo), adminController.deleteInfo);
+  .route('/info/:id')
+  .get(auth(), validate(infoValidation.getInfo), adminController.getInfo)
+  .patch(auth('manageInfos'), validate(infoValidation.updateInfo), adminController.updateInfo)
+  .delete(auth('manageInfos'), validate(infoValidation.deleteInfo), adminController.deleteInfo);
 
-router
-.route('/withdrawals')
-.get(auth(), adminController.getWithdrawReq)
-.post(auth(), adminController.createWithdrawal)
+router.route('/withdrawals').get(auth(), adminController.getWithdrawReq).post(auth(), adminController.createWithdrawal);
 
-router
-.route('/withdrawal/:id')
-.patch(auth(), adminController.approveWithdrawReq)
+router.route('/withdrawal/:id').patch(auth(), adminController.approveWithdrawReq);
 
 module.exports = router;
 

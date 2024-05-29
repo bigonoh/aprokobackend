@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth(), validate(proposalValidation.createProposal), proposalController.createProposal)
-  .get( validate(proposalValidation.getProposals), proposalController.getProposals);
+  .get(validate(proposalValidation.getProposals), proposalController.getProposals);
 
 router
   .route('/:proposalId')
@@ -17,9 +17,7 @@ router
   .patch(auth('manageProposals'), validate(proposalValidation.updateProposal), proposalController.updateProposal)
   .delete(auth(), validate(proposalValidation.deleteProposal), proposalController.deleteProposal);
 
-  router
-  .route('/accept')
-  .put(auth(), proposalController.acceptRejectProposal)
+router.route('/accept').put(auth(), proposalController.acceptRejectProposal);
 
 module.exports = router;
 

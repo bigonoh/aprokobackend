@@ -16,13 +16,12 @@ const password = (value, helpers) => {
 };
 
 const status = (value, helpers) => {
-
-  if ((value !== 'public') || (value !== 'draft') || (value !== 'private')){
+  if (value !== 'public' || value !== 'draft' || value !== 'private') {
     return helpers.message('status must be public, private or draft');
   }
 
   return value;
-}
+};
 
 module.exports = {
   objectId,

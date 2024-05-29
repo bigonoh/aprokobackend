@@ -1,16 +1,15 @@
-//crud.js
+// crud.js
 
 const express = require('express');
 
 module.exports = (Collection) => {
-
   // ======
   // Create
   // ======
   const create = (req, res) => {
     const newEntry = req.body;
-    Collection.create(newEntry, (e,newEntry) => {
-      if(e) {
+    Collection.create(newEntry, (e, newEntry) => {
+      if (e) {
         console.log(e);
         res.sendStatus(500);
       } else {
@@ -23,10 +22,10 @@ module.exports = (Collection) => {
   // Read many
   // =========
   const readMany = (req, res) => {
-    let query = res.locals.query || {};
+    const query = res.locals.query || {};
 
-    Collection.find(query, (e,result) => {
-      if(e) {
+    Collection.find(query, (e, result) => {
+      if (e) {
         res.status(500).send(e);
         console.log(e.message);
       } else {
@@ -41,8 +40,8 @@ module.exports = (Collection) => {
   const readOne = (req, res) => {
     const { _id } = req.params;
 
-    Collection.findById(_id, (e,result) => {
-      if(e) {
+    Collection.findById(_id, (e, result) => {
+      if (e) {
         res.status(500).send(e);
         console.log(e.message);
       } else {
@@ -57,10 +56,8 @@ module.exports = (Collection) => {
   const update = (req, res) => {
     const changedEntry = req.body;
     Collection.update({ _id: req.params._id }, { $set: changedEntry }, (e) => {
-      if (e)
-        res.sendStatus(500);
-      else
-        res.sendStatus(200);
+      if (e) res.sendStatus(500);
+      else res.sendStatus(200);
     });
   };
 
@@ -69,10 +66,8 @@ module.exports = (Collection) => {
   // ======
   const remove = (req, res) => {
     Collection.remove({ _id: req.params._id }, (e) => {
-      if (e)
-      res.status(500).send(e);
-      else
-        res.sendStatus(200);
+      if (e) res.status(500).send(e);
+      else res.sendStatus(200);
     });
   };
 
@@ -80,7 +75,7 @@ module.exports = (Collection) => {
   // Routes
   // ======
 
-  let router = express.Router();
+  const router = express.Router();
 
   router.post('/', create);
   router.get('/', readMany);
@@ -89,5 +84,4 @@ module.exports = (Collection) => {
   router.delete('/:_id', remove);
 
   return router;
-
-}
+};

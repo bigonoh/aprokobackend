@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const {  objectId } = require('./custom.validation');
+const { objectId } = require('./custom.validation');
 
 const createSale = {
   body: Joi.object().keys({

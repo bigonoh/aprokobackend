@@ -3,13 +3,11 @@ const { toJSON } = require('./plugins');
 
 const walletSchema = mongoose.Schema(
   {
-    balance: { type: Number,
-      required: true,
-      default: 0.00 },
+    balance: { type: Number, required: true, default: 0.0 },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User",
+      ref: 'User',
     },
   },
   { timestamps: true }

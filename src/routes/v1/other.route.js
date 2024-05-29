@@ -11,11 +11,7 @@ const router = express.Router();
 
 router.get('/locations', infoController.getLocations);
 router.get('/webhook', webhook);
-router
-.route('/withdraw')
-.get(auth(), getWithdrawReq)
-.post(auth(), createWithdrawal)
-.patch(auth(), approveWithdrawReq)
+router.route('/withdraw').get(auth(), getWithdrawReq).post(auth(), createWithdrawal).patch(auth(), approveWithdrawReq);
 
 module.exports = router;
 

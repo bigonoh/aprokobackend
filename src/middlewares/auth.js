@@ -1,9 +1,9 @@
 const passport = require('passport');
 const httpStatus = require('http-status');
+const { ExtractJwt } = require('passport-jwt');
 const ApiError = require('../utils/ApiError');
 const { roleRights } = require('../config/roles');
 const User = require('../models/user.model');
-const { ExtractJwt } = require('passport-jwt');
 const { readableHighWaterMark } = require('../config/logger');
 const JwtStrategy = require('passport-jwt').Strategy;
 

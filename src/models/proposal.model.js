@@ -34,15 +34,14 @@ const proposalSchema = mongoose.Schema(
 
     accepted: {
       type: Boolean,
-      default: this.status === 'accepted' ? true : false,
+      default: this.status === 'accepted',
     },
 
     status: {
       type: String,
       default: 'pending',
-      enum: ['pending', 'rejected', 'accepted']
-    }
-
+      enum: ['pending', 'rejected', 'accepted'],
+    },
   },
   {
     timestamps: true,

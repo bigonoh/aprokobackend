@@ -15,12 +15,12 @@ const createPurchase = catchAsync(async (req, res) => {
     ...req.body,
   };
 
-  let amount = req.body.amount;
-  let ref = req.body.ref;
-  let seller = req.body.seller;
-  let user = req.user._id;
-  let title = req.body.title;
-  let payment_ref = req.body.payment_ref;
+  const { amount } = req.body;
+  const { ref } = req.body;
+  const { seller } = req.body;
+  const user = req.user._id;
+  const { title } = req.body;
+  const { payment_ref } = req.body;
 
   const purchases = await purchaseService.createPurchase(payload);
   const exists = Purchase.exists({ info_id: req.body.info_id });
@@ -45,8 +45,8 @@ const createPurchase = catchAsync(async (req, res) => {
         balance_after: 0,
         meta: {
           payment_method: 'Paystack',
-          payment_ref: payment_ref,
-          seller: seller,
+          payment_ref,
+          seller,
         },
       },
     ]);
@@ -61,7 +61,7 @@ const createPurchase = catchAsync(async (req, res) => {
 
     if (sales) {
       // create debit transaction
-      let salesTrx = await creditWallet({
+      const salesTrx = await creditWallet({
         user_id: req.body.seller,
         purpose: 'Information sales',
         amount: req.body.amount,
@@ -71,7 +71,7 @@ const createPurchase = catchAsync(async (req, res) => {
         trx_status: 'success',
         meta_data: {
           payment_method: 'Paystack',
-          payment_ref: payment_ref,
+          payment_ref,
           buyer: req.body.buyer,
         },
       });
@@ -79,7 +79,7 @@ const createPurchase = catchAsync(async (req, res) => {
       // console.log(salesTrx)
       return success(res, 'Information Purchased succesfully', {
         purchase: purchases,
-        sales: sales,
+        sales,
         buyer_trx: transaction,
         sales_trx: salesTrx.data,
       });

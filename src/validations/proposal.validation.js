@@ -6,7 +6,7 @@ const createInfo = {
     info_id: Joi.string().custom(objectId).required(),
     message: Joi.string().required(),
     buyer: Joi.string().custom(objectId).required(),
-    seller: Joi.string().custom(objectId).required()
+    seller: Joi.string().custom(objectId).required(),
   }),
 };
 
@@ -33,7 +33,7 @@ const updateInfo = {
   }),
   body: Joi.object()
     .keys({
-      accepted: Joi.boolean()
+      accepted: Joi.boolean(),
     })
     .min(1),
 };

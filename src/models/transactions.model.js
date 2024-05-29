@@ -1,35 +1,34 @@
-const mongoose = require("mongoose");
-const paginate = require("./plugins/paginate.plugin");
-const toJSON = require("./plugins/toJSON.plugin");
+const mongoose = require('mongoose');
+const paginate = require('./plugins/paginate.plugin');
+const toJSON = require('./plugins/toJSON.plugin');
 
 const transactionSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
     },
     trx_type: {
       type: String,
       required: true,
-      enum: ['CREDIT', 'DEBIT']
+      enum: ['CREDIT', 'DEBIT'],
     },
     trx_ref: {
       type: String,
       required: true,
-
     },
-    purpose:{
+    purpose: {
       type: String,
-      required: true
+      required: true,
     },
     amount: {
       type: Number,
       required: true,
-      default: 0.00
+      default: 0.0,
     },
     wallet_id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Wallet'
+      ref: 'Wallet',
     },
     balance_before: {
       type: Number,
@@ -37,34 +36,34 @@ const transactionSchema = new mongoose.Schema(
     },
     currency: {
       type: String,
-      enum: ["NGN", "USD", "EUR", "GBP"],
+      enum: ['NGN', 'USD', 'EUR', 'GBP'],
     },
     balance_after: {
       type: Number,
       required: true,
     },
-    summary: { type: String},
-    trx_summary:{ type: String},
+    summary: { type: String },
+    trx_summary: { type: String },
 
-   payment_gateway: {
-    type: String,
-    // required: [true, "payment gateway is required"],
-    enum: ["flutterwave"], // Payment gateway might differs as the application grows
-  },
-  trx_status: {
-    type: String,
-    enum: ["success", "pending", "failed"],
-    default: "pending",
-  },
+    payment_gateway: {
+      type: String,
+      // required: [true, "payment gateway is required"],
+      enum: ['flutterwave'], // Payment gateway might differs as the application grows
+    },
+    trx_status: {
+      type: String,
+      enum: ['success', 'pending', 'failed'],
+      default: 'pending',
+    },
 
-  meta: {
-    type: Object,
+    meta: {
+      type: Object,
+    },
+    created_at: {
+      type: Date,
+      default: Date.now(),
+    },
   },
-  created_at: {
-    type: Date,
-    default: Date.now(),
-  },
-},
   { timestamp: true }
 );
 
@@ -72,11 +71,10 @@ const transactionSchema = new mongoose.Schema(
 transactionSchema.plugin(toJSON);
 transactionSchema.plugin(paginate);
 
-
 /**
  * @typedef
  */
 
-const Transaction = mongoose.model("Transaction", transactionSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = Transaction;

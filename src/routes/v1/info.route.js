@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth(), validate(infoValidation.createInfo), infoController.createInfo)
-  .get( validate(infoValidation.getInfos), infoController.getInfos);
+  .get(validate(infoValidation.getInfos), infoController.getInfos);
 
 router
   .route('/:infoId')

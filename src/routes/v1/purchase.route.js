@@ -9,12 +9,9 @@ const router = express.Router();
 router
   .route('/')
   .post(auth(), validate(purchaseValidation.createPurchase), purchasesController.createPurchase)
-  .get( validate(purchaseValidation.getPurchases), purchasesController.getPurchases);
+  .get(validate(purchaseValidation.getPurchases), purchasesController.getPurchases);
 
-  router
-  .route('/user')
-  .get(auth(), validate(purchaseValidation.getPurchases), purchasesController.getBoughtInfos);
-
+router.route('/user').get(auth(), validate(purchaseValidation.getPurchases), purchasesController.getBoughtInfos);
 
 router
   .route('/:purchaseId')

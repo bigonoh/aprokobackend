@@ -3,25 +3,16 @@ const { transfer, topupWallet } = require('../../controllers/transaction.control
 const { getTransactions, getWallet } = require('../../controllers/wallet.controller');
 const auth = require('../../middlewares/auth');
 
-const router = express.Router()
+const router = express.Router();
 
 // get user wallet
-router
-.route('/wallet')
-.get(auth(), getWallet);
+router.route('/wallet').get(auth(), getWallet);
 
-router
-.route('/wallet-topup')
-.post(auth(), topupWallet);
+router.route('/wallet-topup').post(auth(), topupWallet);
 
-router
-.route('/transfer')
-.post(auth(), transfer);
+router.route('/transfer').post(auth(), transfer);
 
-router
-.route('/transaction')
-.get(auth(), getTransactions)
-
+router.route('/transaction').get(auth(), getTransactions);
 
 // router
 //   .route('/')
